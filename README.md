@@ -41,3 +41,16 @@ mvn clean package
 java -jar target/crawler-jar-with-dependencies.jar 
 
 ```
+
+# Intellij Config
+
+Unter "Project Structure" (CMD+Ü) muss noch die SDK 21 in Intellij konfiguriert werden.
+
+![project_structure.png](./docs/img/project_structure.png)
+
+Sollte die SDK 21 hier noch nicht zu finden sein muss sie unter "Plattform Settings" -> "SDK's" hinzugefügt werden.
+Tipp: solltest du die SDK vorher mit SDKman heruntergeladen haben, sollte Intellij sie im unteren Bereich des Auswahldialogs
+automatisch finden. 
+![sdk_hinzufuegen.png](./docs/img/sdk_hinzufuegen.png)
+
+
