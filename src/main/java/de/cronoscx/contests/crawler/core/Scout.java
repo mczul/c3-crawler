@@ -11,11 +11,14 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 public final class Scout implements AutoCloseable {
     private static final Logger LOG = Logger.getLogger("Scout");
+    private final Executor executor = Executors.newVirtualThreadPerTaskExecutor();
 
     public record Report(URI source, String query, Boolean found, List<URI> references, Integer responseSize) {
     }
@@ -30,6 +33,7 @@ public final class Scout implements AutoCloseable {
     );
     private final HttpClient client = HttpClient
             .newBuilder()
+            .executor(executor)
             .version(Crawler.HTTP_VERSION)
             .connectTimeout(Duration.ofSeconds(Crawler.TIMEOUT_SECONDS))
             .followRedirects(Redirect.ALWAYS)

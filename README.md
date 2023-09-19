@@ -1,5 +1,7 @@
 # Abstract
 
+🥳 [Java v21 is out](https://openjdk.org/projects/jdk/21/). 🥳 Need to play... now!
+
 # Tools
 
 ## SDKman!
@@ -12,9 +14,10 @@ curl -s "https://get.sdkman.io" | bash
 
 ```shell
 sdk install java 21.ea.35-open
+sdk use java 21.ea.35-open
 ```
 
-## Maven 
+## Maven
 
 ```shell
 sdk install maven 3.9.4
