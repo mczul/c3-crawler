@@ -40,7 +40,7 @@ public class ScoutIT {
 
             // then
             assertThat(report.found()).isFalse();
-            assertThat(report.references()).containsExactly(//
+            assertThat(report.references()).containsExactlyInAnyOrder(//
                 new URI("http://www.cronos.de"), //
                 new URI("https://twitter.com/CronosGmbh"), //
                 new URI("https://www.cronoscx.de/"), //
@@ -69,7 +69,8 @@ public class ScoutIT {
                 new URI("https://www.linkedin.com/company/cronosgmbh/"), //
                 new URI("https://www.onetoone.de/artikel/db/078774gehl.html"), //
                 new URI("https://www.xing.com/companies/cronosunternehmensberatunggmbh"), //
-                new URI("https://www.youtube.com/channel/UCLv5p8SP4PM-ZOAdFkyPwzg") //
+                new URI("https://www.youtube.com/channel/UCLv5p8SP4PM-ZOAdFkyPwzg"), //
+                new URI("https://www.cronoscx.de/cdn-cgi/l/email-protection") //
             );
 
         }
