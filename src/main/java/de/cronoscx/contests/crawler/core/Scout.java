@@ -93,7 +93,7 @@ public final class Scout implements AutoCloseable {
                         return new Report(uri, query, false, List.of(), responseSize);
                     }
 
-                    // query containted in response body?
+                    // query contained in response body?
                     final var body = response.body();
                     if (body.contains(query)) {
                         return new Report(uri, query, true, List.of(), responseSize);
