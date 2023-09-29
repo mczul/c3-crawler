@@ -3,7 +3,7 @@ package de.cronoscx.contests.crawler;
 
 import de.cronoscx.contests.crawler.core.Assessor;
 import de.cronoscx.contests.crawler.core.Crawler;
-import de.cronoscx.contests.crawler.strategies.RecursiveCrawler;
+import de.cronoscx.contests.crawler.strategies.CompletableFutureCrawler;
 import org.springframework.util.StopWatch;
 
 import java.io.IOException;
@@ -64,7 +64,7 @@ public class Starter {
         // 🚀
         LOG.warning("\uD83D\uDE80 at %s".formatted(START_URI));
         watch.start();
-        try (final Crawler crawler = new RecursiveCrawler()) {
+        try (final Crawler crawler = new CompletableFutureCrawler()) {
             // 🛫
             final var uri = new URI(START_URI);
             final Optional<URI> result = crawler.dig(uri, query);
