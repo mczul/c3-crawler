@@ -106,8 +106,8 @@ public final class Scout implements AutoCloseable {
                         .toList();
                     return new Report(uri, query, false, references, responseSize);
 
-                } catch (Throwable ignored) {
-                    LOG.warning("\uD83D\uDCA5 failed request to %s".formatted(uri));
+                } catch (Throwable t) {
+                    LOG.warning("\uD83D\uDCA5 failed request to %s (%s)".formatted(uri, t.toString()));
                     return new Report(uri, query, false, List.of(), 0);
                 }
             });

@@ -27,6 +27,6 @@ public abstract class Crawler implements AutoCloseable {
      * @param query  represents the search term (must be containted in document source, no HTML parsing supported!)
      * @return the URI of the first found page containing the query string
      */
-    public abstract Optional<URI> dig(URI source, String query);
+    public abstract Optional<URI> dig(URI source, String query) throws InterruptedException;
 
 }
