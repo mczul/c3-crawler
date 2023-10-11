@@ -3,9 +3,7 @@ package de.cronoscx.contests.crawler;
 
 import de.cronoscx.contests.crawler.core.Assessor;
 import de.cronoscx.contests.crawler.core.Crawler;
-import de.cronoscx.contests.crawler.strategies.CompletableFutureCrawler;
-import org.springframework.util.StopWatch;
-
+import de.cronoscx.contests.crawler.strategies.StructuredConcurrencyCrawler;
 import java.io.IOException;
 import java.net.URI;
 import java.text.NumberFormat;
@@ -14,6 +12,7 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Logger;
+import org.springframework.util.StopWatch;
 
 public class Starter {
     public static final String START_URI = "http://www.cronoscx.de";
@@ -43,28 +42,21 @@ public class Starter {
         // 🔬
         final var gitProperties = loadGitProperties();
         LOG.info("""
-                        \uD83D\uDD2C Java v%s with %d cores
-                            ~~> Branch: %s
-                            ~~> Commit: %s
-                            ~~> Version: %s""".formatted(
-                        Runtime.version().toString(),
-                        Runtime.getRuntime().availableProcessors(),
-                        gitProperties.getProperty("git.branch", "n/a"),
-                        gitProperties.getProperty("git.commit.id.abbrev", "n/a"),
-                        gitProperties.getProperty("git.build.version", "n/a")
-                )
-        );
+            \uD83D\uDD2C Java v%s with %d cores
+                ~~> Branch: %s
+                ~~> Commit: %s
+                ~~> Version: %s""".formatted(Runtime.version().toString(), Runtime.getRuntime().availableProcessors(),
+            gitProperties.getProperty("git.branch", "n/a"), gitProperties.getProperty("git.commit.id.abbrev", "n/a"),
+            gitProperties.getProperty("git.build.version", "n/a")));
 
         // 🔎
-        final var query = Arrays.stream(args)
-                .findFirst()
-                .orElse("Door-to-Door");
+        final var query = Arrays.stream(args).findFirst().orElse("Door-to-Door");
         LOG.info("\uD83D\uDD0E \"%s\"".formatted(query));
 
         // 🚀
         LOG.warning("\uD83D\uDE80 at %s".formatted(START_URI));
         watch.start();
-        try (final Crawler crawler = new CompletableFutureCrawler()) {
+        try (final Crawler crawler = new StructuredConcurrencyCrawler()) {
             // 🛫
             final var uri = new URI(START_URI);
             final Optional<URI> result = crawler.dig(uri, query);
@@ -72,21 +64,17 @@ public class Starter {
             // 🛬
             watch.stop();
             LOG.warning("\uD83C\uDFC1 after %s ms... %s sources crawled".formatted(
-                    NUMBER_FORMAT.format(watch.getTotalTimeMillis()),
-                    NUMBER_FORMAT.format(crawler.memory().size())
-            ));
+                NUMBER_FORMAT.format(watch.getTotalTimeMillis()), NUMBER_FORMAT.format(crawler.memory().size())));
 
             // ⁉️
-            final var assessment = result
-                    .map(found -> {
-                        final var success = ASSESSOR.ok(found, query);
-                        if (success) {
-                            return "✅ found URI \"%s\" is correct.".formatted(found);
-                        } else {
-                            return "❎ found URI \"%s\" incorrect.".formatted(found);
-                        }
-                    })
-                    .orElse("❎ no URI found.");
+            final var assessment = result.map(found -> {
+                final var success = ASSESSOR.ok(found, query);
+                if (success) {
+                    return "✅ found URI \"%s\" is correct.".formatted(found);
+                } else {
+                    return "❎ found URI \"%s\" incorrect.".formatted(found);
+                }
+            }).orElse("❎ no URI found.");
             LOG.warning(assessment);
 
             // 🔬

@@ -5,7 +5,6 @@ import java.net.URI;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.locks.ReentrantLock;
@@ -17,7 +16,7 @@ import java.util.function.Function;
  */
 public final class Memory {
     private static final NumberFormat NUMBER_FORMAT = NumberFormat.getIntegerInstance(Locale.GERMAN);
-    private final Map<URI, Report> history = new ConcurrentHashMap<>();
+    private final ConcurrentMap<URI, Report> history = new ConcurrentHashMap<>();
     private final ConcurrentMap<URI, ReentrantLock> locks = new ConcurrentHashMap<>();
 
     /**

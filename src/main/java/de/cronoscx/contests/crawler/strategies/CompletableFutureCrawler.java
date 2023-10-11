@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class CompletableFutureCrawler extends Crawler {
     private final Scout scout = new Scout(memory);
+    // private final ExecutorService executor = Executors.newFixedThreadPool(5);
     private final ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
     private final AtomicInteger runningTasks = new AtomicInteger(0);
 
@@ -58,7 +59,7 @@ public class CompletableFutureCrawler extends Crawler {
             }
         } finally {
             int remainingTasks = runningTasks.decrementAndGet();
-            LOG.finer("Remaining tasks: " + remainingTasks);
+            LOG.info("Remaining tasks: " + remainingTasks);
             if (remainingTasks == 0) {
                 future.complete(null);
             }
